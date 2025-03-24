@@ -50,6 +50,49 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            decoration: InputDecoration(
+             hintText: 'Enter your Username',
+             hintStyle: TextStyle(color: Colors.grey),
+            ),
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+      TextFormField(
+            decoration: InputDecoration(
+             hintText: 'Enter your email address',
+             hintStyle: TextStyle(color: Colors.grey),
+            ),
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+           TextFormField(
+            decoration: InputDecoration(
+             hintText: 'Enter your date of birth',
+             hintStyle: TextStyle(color: Colors.grey),
+            ),
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+           TextFormField(
+            decoration: InputDecoration(
+             hintText: 'Enter your password',
+             hintStyle: TextStyle(color: Colors.grey),
+            ),
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
