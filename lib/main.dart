@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'confirmation.dart';
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -101,6 +103,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
+        
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: ElevatedButton(
@@ -112,8 +115,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),
                   );
+
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  Confirmation(),
+                    ),
+                  );
                 }
               },
+
               child: const Text('Submit'),
             ),
           ),
