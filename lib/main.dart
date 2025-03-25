@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signup/widgets/custom_form_field.dart';
 
 void main() => runApp(const MyApp());
 
@@ -41,6 +42,14 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
+
+/*
+        child: Form(
+          children: [
+          CustomFormField(
+            hintText: "Emeil",
+          )])
+*/
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
