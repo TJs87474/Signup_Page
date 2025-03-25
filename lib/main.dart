@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'confirmation.dart';
+import 'package:intl/intl.dart'; 
 
 void main() => runApp(const MyApp());
 
@@ -41,6 +42,7 @@ class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
+
   }
 }
 
@@ -53,6 +55,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+
+
+  final TextEditingController _dobController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +113,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           const SizedBox(height: 10),
 
           TextFormField(
+            controller: _dobController, // Connect the controller to the text field
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -117,15 +124,32 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               hintText: 'Enter your date of birth',
               hintStyle: const TextStyle(color: Colors.grey),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () async {
+                  // Show the date picker when the user taps the calendar icon
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (pickedDate != null) {
+                    // If the user selects a date, format and display it in the text field
+                    _dobController.text = DateFormat('MM/dd/yyyy').format(pickedDate);
+                  }
+                },
+              ),
             ),
-            // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please select your date of birth';
               }
               return null;
             },
           ),
+
           const SizedBox(height: 10),
 
           TextFormField(
