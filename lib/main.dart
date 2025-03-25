@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'confirmation.dart';
+import 'package:intl/intl.dart'; 
 
 void main() => runApp(const MyApp());
 
@@ -9,15 +9,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Form Validation Demo';
+    const appTitle = 'Sign Up';
+    
+    
 
     return MaterialApp(
-      title: appTitle,
+       title: appTitle,
+       
+      theme: ThemeData(
+        
+        scaffoldBackgroundColor: Colors.white
+      ),
       home: Scaffold(
         appBar: AppBar(
           title: const Text(appTitle),
+          centerTitle: true,
+          backgroundColor: Colors.white,
         ),
-        body: const MyCustomForm(),
+        body: const Padding(
+          padding: EdgeInsets.all(16.0), // Adds padding around the form
+          child: MyCustomForm(),
+        ),
       ),
     );
   }
@@ -30,6 +42,7 @@ class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
+
   }
 }
 
@@ -43,6 +56,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
+
+  final TextEditingController _dobController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -53,8 +70,15 @@ class MyCustomFormState extends State<MyCustomForm> {
         children: [
           TextFormField(
             decoration: InputDecoration(
-             hintText: 'Enter your Username',
-             hintStyle: TextStyle(color: Colors.grey),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                  width: 2.0, // Adjusted width for a thicker border
+                ),
+              ),
+              hintText: 'Enter your Username',
+              hintStyle: const TextStyle(color: Colors.grey),
             ),
             // The validator receives the text that the user has entered.
             validator: (value) {
@@ -64,10 +88,19 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-      TextFormField(
+          const SizedBox(height: 10), // Adds spacing between fields
+
+          TextFormField(
             decoration: InputDecoration(
-             hintText: 'Enter your email address',
-             hintStyle: TextStyle(color: Colors.grey),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                  width: 2.0, // Adjusted width for a thicker border
+                ),
+              ),
+              hintText: 'Enter your email address',
+              hintStyle: const TextStyle(color: Colors.grey),
             ),
             // The validator receives the text that the user has entered.
             validator: (value) {
@@ -77,23 +110,60 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-           TextFormField(
+          const SizedBox(height: 10),
+
+          TextFormField(
+            controller: _dobController, // Connect the controller to the text field
             decoration: InputDecoration(
-             hintText: 'Enter your date of birth',
-             hintStyle: TextStyle(color: Colors.grey),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                  width: 2.0, // Adjusted width for a thicker border
+                ),
+              ),
+              hintText: 'Enter your date of birth',
+              hintStyle: const TextStyle(color: Colors.grey),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () async {
+                  // Show the date picker when the user taps the calendar icon
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (pickedDate != null) {
+                    // If the user selects a date, format and display it in the text field
+                    _dobController.text = DateFormat('MM/dd/yyyy').format(pickedDate);
+                  }
+                },
+              ),
             ),
-            // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please select your date of birth';
               }
               return null;
             },
           ),
-           TextFormField(
+
+          const SizedBox(height: 10),
+
+          TextFormField(
+            obscureText: true, // Hides the password input
             decoration: InputDecoration(
-             hintText: 'Enter your password',
-             hintStyle: TextStyle(color: Colors.grey),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                  width: 2.0, // Adjusted width for a thicker border
+                ),
+              ),
+              hintText: 'Enter your password',
+              hintStyle: const TextStyle(color: Colors.grey),
             ),
             // The validator receives the text that the user has entered.
             validator: (value) {
@@ -103,9 +173,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-        
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+          const SizedBox(height: 20), // Adds spacing before the submit button
+
+          Center(
             child: ElevatedButton(
               onPressed: () {
                 // Validate returns true if the form is valid, or false otherwise.
@@ -116,15 +186,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                     const SnackBar(content: Text('Processing Data')),
                   );
 
-                    Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  Confirmation(),
+                      builder: (context) => Confirmation(),
                     ),
                   );
                 }
               },
-
               child: const Text('Submit'),
             ),
           ),
